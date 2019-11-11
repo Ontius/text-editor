@@ -15,10 +15,10 @@ public class CommandManager {
     /**
      * A set containing all commands.
      */
-    private Set commands;
+    private Set<Object> commands;
 
     /**
-     * Creates a {@link CommandManager} object instance with all ch.zhaw.text.editor.command instances.
+     * Creates a {@link CommandManager} object instance with all command instances.
      */
     public CommandManager() {
         commands = new HashSet(Arrays.asList(
@@ -31,10 +31,10 @@ public class CommandManager {
     }
 
     /**
-     * Tries to find the ch.zhaw.text.editor.command in the input string. If a ch.zhaw.text.editor.command was found it will be returned.
+     * Tries to find the command in the input string. If a command was found it will be returned.
      *
      * @param input The user input.
-     * @return The ch.zhaw.text.editor.command object instance that was being found.
+     * @return The command object instance that was being found.
      * @throws RuntimeException If the given input is invalid.
      */
     public void execute(String input) {
@@ -63,48 +63,49 @@ public class CommandManager {
      * @throws Exception If no command was found for the given name.
      */
     private boolean executeCommand(String commandName, String arguments) {
-        String lowerCaseName = commandName.toLowerCase();
-
-        if(lowerCaseName.equals("help")) {
+        if(commandName.equalsIgnoreCase("help")) {
             printHelp();
             return true;
+        } else if(commandName.equalsIgnoreCase("quit")) {
+            System.out.println("Thanks for using our non-persistent editor. Your data is lost!");
+            System.exit(0);
         }
 
         for(Object command : commands) {
             if(command instanceof AddCommand) {
                 AddCommand addCommand = (AddCommand) command;
 
-                if(addCommand.getName().toLowerCase().equals(lowerCaseName)) {
+                if(addCommand.getName().equalsIgnoreCase(commandName)) {
                     return addCommand.execute(arguments);
                 }
             } else if(command instanceof ChangeCommand) {
                 ChangeCommand changeCommand = (ChangeCommand) command;
 
-                if(changeCommand.getName().toLowerCase().equals(lowerCaseName)) {
+                if(changeCommand.getName().equalsIgnoreCase(commandName)) {
                     return changeCommand.execute(arguments);
                 }
             } else if(command instanceof DeleteCommand) {
                 DeleteCommand deleteCommand = (DeleteCommand) command;
 
-                if(deleteCommand.getName().toLowerCase().equals(lowerCaseName)) {
+                if(deleteCommand.getName().equalsIgnoreCase(commandName)) {
                     return deleteCommand.execute(arguments);
                 }
             } else if(command instanceof PrintCommand) {
                 PrintCommand printCommand = (PrintCommand) command;
 
-                if(printCommand.getName().toLowerCase().equals(lowerCaseName)) {
+                if(printCommand.getName().equalsIgnoreCase(commandName)) {
                     return printCommand.execute(arguments);
                 }
             } else if(command instanceof IndexCommand) {
                 IndexCommand indexCommand = (IndexCommand) command;
 
-                if(indexCommand.getName().toLowerCase().equals(lowerCaseName)) {
+                if(indexCommand.getName().equalsIgnoreCase(commandName)) {
                     return indexCommand.execute(arguments);
                 }
             }
         }
 
-        throw new RuntimeException("The command with the name " + lowerCaseName + " was not found.");
+        throw new RuntimeException("The command with the name " + commandName + " was not found.");
     }
 
     /**

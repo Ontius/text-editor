@@ -1,8 +1,18 @@
 package ch.zhaw.text.editor.command;
 
+import ch.zhaw.text.editor.storage.Storage;
+import org.junit.Before;
 import org.junit.Test;
 
 public class CommandManagerUnitTest {
+
+    /**
+     * Clears the storage before every test.
+     */
+    @Before
+    public void setUp() {
+        Storage.getInstance().clear();
+    }
 
     @Test
     public void whenExecuteContainsValidInput_thenNoExceptions() {

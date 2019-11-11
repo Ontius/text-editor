@@ -30,11 +30,13 @@ public class WordDictionary {
      * @param paragraph The index of the paragraph.
      */
     public void addWord(String word, int paragraph) {
-        if(!words.containsKey(word)) {
-            words.put(word, new Word(word));
+        String lowerCaseWord = word.toLowerCase();
+
+        if(!words.containsKey(lowerCaseWord)) {
+            words.put(lowerCaseWord, new Word(lowerCaseWord));
         }
 
-        words.get(word).addOccurrenceInParagraph(paragraph);
+        words.get(lowerCaseWord).addOccurrenceInParagraph(paragraph);
     }
 
     /**

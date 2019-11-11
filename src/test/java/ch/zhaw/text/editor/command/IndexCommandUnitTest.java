@@ -1,10 +1,20 @@
 package ch.zhaw.text.editor.command;
 
+import ch.zhaw.text.editor.storage.Storage;
 import ch.zhaw.text.editor.utility.TextUtil;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 public class IndexCommandUnitTest {
+
+    /**
+     * Clears the storage before every test.
+     */
+    @Before
+    public void setUp() {
+        Storage.getInstance().clear();
+    }
 
     @Test
     public void whenNameIsRetrieved_thenNameIsCorrectlyRetrieved() {
@@ -83,6 +93,19 @@ public class IndexCommandUnitTest {
 
         // Then
         Assert.assertEquals(false, result);
+    }
+
+    @Test
+    public void givenParagraphExists_whenExecuteIsCalledWithValidArguments_thenOutputIsCorrect() {
+        // Given
+        AddCommand addCommand = new AddCommand();
+        String addArguments = String.format("%s", 12, "Hello World, Hello again");
+        addCommand.execute(addArguments);
+
+        // When & then
+        IndexCommand indexCommand = new IndexCommand();
+        String arguments = String.format("%s", 1);
+        indexCommand.execute(arguments);
     }
 
 }

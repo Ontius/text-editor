@@ -1,10 +1,21 @@
 package ch.zhaw.text.editor.command;
 
+import ch.zhaw.text.editor.storage.Storage;
 import ch.zhaw.text.editor.utility.TextUtil;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 public class AddCommandUnitTest {
+
+    /**
+     * Clears the storage before every test.
+     */
+    @Before
+    public void setUp() {
+        Storage.getInstance().clear();
+    }
 
     @Test
     public void whenNameIsRetrieved_thenNameIsCorrectlyRetrieved() {
@@ -13,7 +24,7 @@ public class AddCommandUnitTest {
         String name = addCommand.getName();
 
         // Then
-        Assert.assertEquals("add", name);
+        assertEquals("add", name);
     }
 
     @Test
@@ -23,7 +34,7 @@ public class AddCommandUnitTest {
         String description = addCommand.getDescription();
 
         // Then
-        Assert.assertEquals("Adds a text to the storage.", description);
+        assertEquals("Adds a text to the storage.", description);
     }
 
     @Test
@@ -33,7 +44,7 @@ public class AddCommandUnitTest {
         String helpText = addCommand.getHelpText();
 
         // Then
-        Assert.assertEquals("ADD [paragraph_index] [\"content\"] This command adds a text to the editor.", helpText);
+        assertEquals("ADD [paragraph_index] [\"content\"] This command adds a text to the editor.", helpText);
     }
 
     @Test
@@ -52,7 +63,7 @@ public class AddCommandUnitTest {
         boolean result = addCommand.execute(arguments);
 
         // Then
-        Assert.assertEquals(false, result);
+        assertEquals(false, result);
     }
 
     @Test
@@ -63,7 +74,7 @@ public class AddCommandUnitTest {
         boolean result = addCommand.execute(arguments);
 
         // Then
-        Assert.assertEquals(true, result);
+        assertEquals(true, result);
     }
 
     @Test
@@ -74,7 +85,41 @@ public class AddCommandUnitTest {
         boolean result = addCommand.execute(arguments);
 
         // Then
-        Assert.assertEquals(false, result);
+        assertEquals(false, result);
+    }
+
+    @Test
+    public void whenExecuteIsCalledWithValidArguments_thenStorageContainsCorrectValue() {
+        // When
+        int paragraphIndex = 12;
+        String content = TextUtil.getShortParagraph();
+        AddCommand addCommand = new AddCommand();
+        String arguments = String.format("%s \"%s\"", paragraphIndex, content);
+        addCommand.execute(arguments);
+
+        Storage storage = Storage.getInstance();
+        String value = storage.getParagraph(paragraphIndex);
+
+        // Then
+        assertEquals(content, value);
+    }
+
+    @Test
+    public void whenExecuteIsCalledTwiceWithSameParagraphIndex_thenStorageContainsCorrectValue() {
+        // When
+        int paragraphIndex = 12;
+        AddCommand addCommand = new AddCommand();
+        String arguments = String.format("%s \"%s\"", paragraphIndex, TextUtil.getShortParagraph());
+        addCommand.execute(arguments);
+        String content = TextUtil.getLoremIpsumParagraph();
+        arguments = String.format("%s \"%s\"", paragraphIndex, content);
+        addCommand.execute(arguments);
+
+        Storage storage = Storage.getInstance();
+        String value = storage.getParagraph(paragraphIndex);
+
+        // Then
+        assertEquals(content, value);
     }
 
 }

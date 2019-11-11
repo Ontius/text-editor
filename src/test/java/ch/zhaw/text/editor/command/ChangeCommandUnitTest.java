@@ -1,10 +1,21 @@
 package ch.zhaw.text.editor.command;
 
+import ch.zhaw.text.editor.storage.Storage;
 import ch.zhaw.text.editor.utility.TextUtil;
-import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.*;
+
 public class ChangeCommandUnitTest {
+
+    /**
+     * Clears the storage before every test.
+     */
+    @Before
+    public void setUp() {
+        Storage.getInstance().clear();
+    }
 
     @Test
     public void whenNameIsRetrieved_thenNameIsCorrectlyRetrieved() {
@@ -13,7 +24,7 @@ public class ChangeCommandUnitTest {
         String name = changeCommand.getName();
 
         // Then
-        Assert.assertEquals("change", name);
+        assertEquals("change", name);
     }
 
     @Test
@@ -23,7 +34,7 @@ public class ChangeCommandUnitTest {
         String description = changeCommand.getDescription();
 
         // Then
-        Assert.assertEquals("Replaces a text by another text.", description);
+        assertEquals("Replaces a text by another text.", description);
     }
 
     @Test
@@ -33,7 +44,7 @@ public class ChangeCommandUnitTest {
         String helpText = changeCommand.getHelpText();
 
         // Then
-        Assert.assertEquals("CHANGE [paragraph_index] [\"search\"] [\"replacement\"] This command replaces a text by another text.", helpText);
+        assertEquals("CHANGE [paragraph_index] [\"search\"] [\"replacement\"] This command replaces a text by another text.", helpText);
     }
 
     @Test
@@ -57,7 +68,7 @@ public class ChangeCommandUnitTest {
         boolean result = changeCommand.execute(arguments);
 
         // Then
-        Assert.assertEquals(false, result);
+        assertEquals(false, result);
     }
 
     @Test
@@ -73,7 +84,7 @@ public class ChangeCommandUnitTest {
         boolean result = changeCommand.execute(arguments);
 
         // Then
-        Assert.assertEquals(true, result);
+        assertEquals(true, result);
     }
 
     @Test
@@ -84,7 +95,7 @@ public class ChangeCommandUnitTest {
         boolean result = changeCommand.execute(arguments);
 
         // Then
-        Assert.assertEquals(false, result);
+        assertEquals(false, result);
     }
 
     @Test(expected = RuntimeException.class)
@@ -93,6 +104,26 @@ public class ChangeCommandUnitTest {
         ChangeCommand changeCommand = new ChangeCommand();
         String arguments = String.format("%s \"%s\" \"%s\"", 39, TextUtil.getShortParagraph(), TextUtil.getLoremIpsumParagraph());
         changeCommand.execute(arguments);
+    }
+
+    @Test
+    public void givenParagraphExists_whenExecuteIsCalledWithValidArguments_thenStorageContainsCorrectValue() {
+        // Given
+        int paragraphIndex = 12;
+        AddCommand addCommand = new AddCommand();
+        String arguments = String.format("%s \"%s\"", paragraphIndex, "Coding is fun");
+        addCommand.execute(arguments);
+
+        // When
+        ChangeCommand changeCommand = new ChangeCommand();
+        arguments = String.format("%s \"%s\" \"%s\"", paragraphIndex, "fun", "interesting");
+        changeCommand.execute(arguments);
+
+        Storage storage = Storage.getInstance();
+        String value = storage.getParagraph(paragraphIndex);
+
+        // Then
+        assertEquals("Coding is interesting", value);
     }
 
 }

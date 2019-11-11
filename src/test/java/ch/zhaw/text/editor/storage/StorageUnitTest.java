@@ -6,11 +6,12 @@ import org.junit.Test;
 
 public class StorageUnitTest {
 
+    /**
+     * Clears the storage before every test.
+     */
     @Before
-    public void setup() {
-        // Clear the whole storage before every test.
-        Storage storage = Storage.getInstance();
-        storage.clear();
+    public void setUp() {
+        Storage.getInstance().clear();
     }
 
     @Test

@@ -53,7 +53,7 @@ public class IndexProcessor {
      *
      * @return A {@link WordDictionary} object instance.
      */
-    private WordDictionary getWordDictionary() {
+    public WordDictionary getWordDictionary() {
         WordDictionary wordDictionary = new WordDictionary();
         Map<Integer, String> map = storage.getParagraphMap();
 

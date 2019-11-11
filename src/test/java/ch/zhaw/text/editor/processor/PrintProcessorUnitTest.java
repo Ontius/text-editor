@@ -2,11 +2,20 @@ package ch.zhaw.text.editor.processor;
 
 import ch.zhaw.text.editor.context.AddContext;
 import ch.zhaw.text.editor.context.PrintContext;
+import ch.zhaw.text.editor.storage.Storage;
 import ch.zhaw.text.editor.utility.TextUtil;
 import org.junit.Before;
 import org.junit.Test;
 
 public class PrintProcessorUnitTest {
+
+    /**
+     * Clears the storage before every test.
+     */
+    @Before
+    public void setUp() {
+        Storage.getInstance().clear();
+    }
 
     @Before
     public void setup() {

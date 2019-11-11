@@ -1,10 +1,20 @@
 package ch.zhaw.text.editor.command;
 
+import ch.zhaw.text.editor.storage.Storage;
 import ch.zhaw.text.editor.utility.TextUtil;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 public class PrintCommandUnitTest {
+
+    /**
+     * Clears the storage before every test.
+     */
+    @Before
+    public void setUp() {
+        Storage.getInstance().clear();
+    }
 
     @Test
     public void whenNameIsRetrieved_thenNameIsCorrectlyRetrieved() {

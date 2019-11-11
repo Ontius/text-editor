@@ -33,7 +33,6 @@ public class Editor {
      * Runs the editor.
      */
     public void run() {
-
         while(true) {
             String userInput = inputScanner.getInput();
 

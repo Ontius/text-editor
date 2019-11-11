@@ -59,11 +59,13 @@ public class Storage {
             throw new RuntimeException(message);
         }
 
-        if(index < paragraphs.size()) {
-            paragraphs.set(index - 1, content);
+        int listIndex = convertIndexToListIndex(index);
+
+        if((listIndex) < paragraphs.size()) {
+            paragraphs.set(listIndex, content);
         } else {
             for(int i = paragraphs.size(); i < index; i++) {
-                if(i == (index - 1)) {
+                if(i == (listIndex)) {
                     paragraphs.add(content);
                 } else {
                     paragraphs.add("");
@@ -85,16 +87,8 @@ public class Storage {
             throw new RuntimeException(message);
         }
 
-        return paragraphs.get(index - 1);
-    }
-
-    /**
-     * Returns the full list of paragraphs.
-     *
-     * @return The full list of paragraphs.
-     */
-    public List<String> getParagraphs() {
-        return paragraphs;
+        int listIndex = convertIndexToListIndex(index);
+        return paragraphs.get(listIndex);
     }
 
     /**
@@ -124,7 +118,8 @@ public class Storage {
             throw new RuntimeException(message);
         }
 
-        paragraphs.remove(index - 1);
+        int listIndex = convertIndexToListIndex(index);
+        paragraphs.remove(listIndex);
     }
 
     /**
@@ -132,6 +127,16 @@ public class Storage {
      */
     public void clear() {
         paragraphs.clear();
+    }
+
+    /**
+     * Converts the given {@code index} to a list index.
+     *
+     * @param index The index that is being converted.
+     * @return The converted index.
+     */
+    private int convertIndexToListIndex(int index) {
+        return index - 1;
     }
 
 }
