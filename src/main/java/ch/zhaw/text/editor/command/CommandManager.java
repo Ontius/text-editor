@@ -55,11 +55,11 @@ public class CommandManager {
     }
 
     /**
-     * Returns a ch.zhaw.text.editor.command by its name.
+     * Returns a command by its name.
      *
      * @param commandName The name of the command.
-     * @param arguments The ch.zhaw.text.editor.command arguments.
-     * @return The ch.zhaw.text.editor.command object instance that was being found.
+     * @param arguments The command arguments.
+     * @return The command object instance that was being found.
      * @throws Exception If no command was found for the given name.
      */
     private boolean executeCommand(String commandName, String arguments) {

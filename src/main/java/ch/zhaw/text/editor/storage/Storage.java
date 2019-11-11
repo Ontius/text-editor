@@ -26,7 +26,7 @@ public class Storage {
     /**
      * Creates a {@link Storage} object instance with an empty paragraph list.
      */
-    public Storage() {
+    private Storage() {
         paragraphs = new ArrayList<>();
     }
 
@@ -128,44 +128,10 @@ public class Storage {
     }
 
     /**
-     * Returns a map with the number of occurrences of each word.
-     *
-     * @return A map with the number of occurrences of each word.
+     * Clears the whole storage.
      */
-    public Map<String, Integer> getWordsCount() {
-        Map<String, Integer> map = new HashMap<>();
-
-        for(String paragraph : paragraphs) {
-            String[] words = paragraph.split(" ");
-
-            for(String word : words) {
-                int count = 1;
-
-                if(map.containsKey(word)) {
-                    count += map.get(word);
-                }
-
-                map.put(word, count);
-            }
-        }
-
-        return map;
-    }
-
-    /**
-     * Returns the number of occurrences for the given {@code word}.
-     *
-     * @param word The word to look for.
-     * @return The number of occurrences.
-     */
-    public int getWordCount(String word) {
-        Map<String, Integer> map = getWordsCount();
-
-        if(map.containsKey(word)) {
-            return map.get(word);
-        }
-
-        return 0;
+    public void clear() {
+        paragraphs.clear();
     }
 
 }
